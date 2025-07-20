@@ -1,0 +1,131 @@
+# Berlin Housing Price Prediction Project
+
+## 2. Business Understanding
+
+### 2.1 What is your goal/research question?
+- The goal is to develop a machine learning  to accurately predict housing prices in Berlin based on property features, location, and demographic data.
+- Research questions include: What are the main drivers of housing prices in Berlin? How well can we predict prices using available data? Where does the model perform well or poorly?model
+
+### 2.5 What kind of problem is that and why?
+- **Type:** Supervised learning, regression problem
+- **Why:** The target variable (price) is continuous and known for each sample. The task is to predict this value based on input features.
+- **Additional:** Unsupervised learning (clustering) was also used for market segmentation.
+
+---
+
+## 3. Data Understanding
+
+### 3.1 Which data sources did you use?
+- Main source: `wohnungen_plus_population.csv` containing Berlin property listings, features, and population statistics by borough.
+
+### 3.2 What was your initial finding on the quality and quantity of the data?
+- **Quantity:** ~4,679 rows, 16 columns
+- **Quality:**
+  - Some missing values in categorical and numerical features
+  - Some features had 'unbekannt' (unknown) values
+  - Outliers present in price and area
+  - Data covered a wide range of boroughs and property types
+
+### 3.4 What are the properties of the created dataset?
+- **Size:** 4,679 samples, 16 original features (expanded with engineered features)
+- **Features:**
+  - Numerical: price, area, rooms, construction_year, level, price_per_sqm, distance_to_center_km, etc.
+  - Categorical: energy, heating, borough, neighborhood
+  - Engineered: building_age, area_per_room, price_category, size_category, location_category, living_standard_index
+- **Distribution:**
+  - Price is right-skewed, with most properties in the lower price range
+  - Boroughs and property types are well represented
+
+### 3.5 Are there outliers?
+- Yes, significant outliers in price and area were detected and visualized.
+- Outliers were removed using both z-score and IQR methods, both globally and per-borough.
+
+### 3.6 Present samples of the data
+| energy | heating | price | area | rooms | zipcode | construction_year | level | Borough | price_per_sqm | distance_to_center_km |
+|--------|---------|-------|------|-------|---------|-------------------|-------|---------|---------------|----------------------|
+| Oel    | Zentralheizung | 249000 | 64   | 3     | 13505   | 1971              | 2     | Reinickendorf | 3890.63       | 14.40                |
+| Gas    | Fussbodenheizung | 1295000 | 136.06 | 4 | 10405 | 1900 | 5 | Pankow | 9517.86 | 2.17 |
+| Oel    | Zentralheizung | 349000 | 86   | 3     | 13583   | 1966              | 2     | Spandau | 4058.14       | 17.42                |
+
+---
+
+## 4. Data Preparation
+
+### 3.1 What information is available?
+- All features listed above, plus population and new apartment counts per borough.
+
+### 3.2 Which features did you use or build based on that?
+- Used: All original features except for redundant ones (e.g., zipcode, neighborhood)
+- Built: building_age, area_per_room, price_to_income_ratio, size_category, price_category, location_category, living_standard_index
+
+### 3.5 Did you change distributions (over/undersampling) and if, why?
+- No explicit over/undersampling was performed. The dataset was large and diverse enough for regression.
+- Outlier removal changed the distribution of price and area to be less skewed and more normal.
+
+---
+
+## 5. Modelling
+
+### 5.1 Which models did you select for this problem?
+- Linear Regression
+- Ridge Regression
+- Lasso Regression
+- ElasticNet
+- Random Forest Regressor
+- Gradient Boosting Regressor
+- XGBoost Regressor (best performer)
+
+### 5.2 How did you divide the data into train/dev/test set?
+- 80% training, 20% test split using `train_test_split` with a fixed random seed for reproducibility.
+
+### 5.3 Which hyperparameters did you optimize?
+- For tree-based models: n_estimators, max_depth, min_samples_split, min_samples_leaf, learning_rate, subsample, colsample_bytree
+- For Ridge/Lasso: alpha, solver
+- GridSearchCV was used for hyperparameter tuning.
+
+### 5.4 What was the best generalizing model?
+- XGBoost Regressor with tuned hyperparameters.
+
+### 5.5 Did you experience over/under fitting? (Present learning curves on loss)
+- Some overfitting was observed in tree-based models (train R² > test R²), but regularization and tuning reduced this.
+- Learning curves showed the gap between train and test error decreased after tuning.
+
+---
+
+## 6. Evaluation
+
+### 6.1 Which metrics did you select for your task and why?
+- R² Score: Measures explained variance, standard for regression
+- RMSE: Penalizes large errors, interpretable in price units
+- MAE: Robust to outliers, interpretable in price units
+- Percentage Error: For segmentation analysis
+
+### 6.2 What result would a naive algorithm/Dummy classifier produce?
+- A naive regressor predicting the mean price for all samples would have much higher RMSE and lower R² (close to 0).
+
+### 6.3 Which metrics would you report and what results/conclusions can be made based on the numbers?
+- Reported: R², RMSE, MAE, Percentage Error (overall and by segment)
+- The best model achieved R² > 0.8 and RMSE < 10% of mean price on the test set.
+- Segmentation analysis revealed higher errors for budget, very large/small, and new properties.
+
+---
+
+## 7. Conclusion
+
+### 7.1 Is your approach suitable to solve the problem?
+- Yes, the approach is suitable. The model predicts prices with high accuracy and provides actionable insights for different market segments.
+
+### 7.2 What are your learnings from the project?
+- Feature engineering and outlier handling are critical for real estate price prediction.
+- Model performance varies significantly across property segments.
+- Segmentation analysis is essential for understanding model limitations and guiding improvements.
+
+### 7.3 What didn't you achieve in the project?
+- Did not implement time-series analysis or temporal trends.
+- Did not include external data sources (e.g., public transport, amenities).
+- Did not deploy the model as a web service or API (not in scope).
+
+---
+
+**Project:** Berlin Housing Price Prediction  
+**Prepared by:** Data Science Team 
