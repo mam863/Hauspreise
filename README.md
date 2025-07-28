@@ -2,11 +2,11 @@ Grupp:22
 
 Omran, Marwa  589105
 
-Yekdaneh, Faranak
+Yekdaneh, Faranak  592074
 
 Pham, Tung
 
-Hanitzsch, Richie
+Hanitzsch, Richie  584988
 
 
 # 🏠 Berlin Housing Price Prediction
