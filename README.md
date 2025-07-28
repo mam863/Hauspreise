@@ -4,7 +4,7 @@ Yekdaneh, Faranak
 Pham, Tung
 Hanitzsch, Richie
 
-لأقعح
+
 # 🏠 Berlin Housing Price Prediction
 
 This project develops a machine learning pipeline to accurately predict housing prices in Berlin using a combination of property features, geographic location, demographic data, and advanced modeling techniques.
