@@ -1,7 +1,11 @@
-Gruppw22
+Grupp:22
+
 Omran, Marwa  589105
+
 Yekdaneh, Faranak
+
 Pham, Tung
+
 Hanitzsch, Richie
 
 
