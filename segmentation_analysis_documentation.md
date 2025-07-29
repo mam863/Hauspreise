@@ -167,6 +167,5 @@ The segmentation analysis reveals that while the model performs well overall, th
 
 ---
 
-**Date**: August 2023  
-**Model Version**: 1.0  
-**Analysis By**: Data Science Team 
+
+**Analysis By**: Marwa Omran
